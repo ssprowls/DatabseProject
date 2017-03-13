@@ -104,6 +104,7 @@ public class LoginMenuView extends JLayeredPane
 
         login.addActionListener(new ProgressListener());
     }
+    
     private class ProgressListener implements ActionListener
     {
 
@@ -117,7 +118,7 @@ public class LoginMenuView extends JLayeredPane
             {
                 JFrame frame = (JFrame) SwingUtilities.getRoot(jtfUsername);
                 frame.getContentPane().removeAll();           
-                //frame.getContentPane().add(new MainMenuView(this.user));
+                frame.getContentPane().add(new MainMenuView());
                 frame.getContentPane().validate();
                 frame.getContentPane().repaint();
             }

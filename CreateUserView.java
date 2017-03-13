@@ -39,13 +39,14 @@ public class CreateUserView extends JLayeredPane
     private JTextField jtfName;
     private JTextField jtfEmail;
     private JButton register;
+    private JButton back;
 
     /**
      * Constructor for objects of class CreateUserView
      */
     public CreateUserView()
     {
-        title = new JLabel("Create A New User");
+        title = new JLabel("Register");
         usernameLabel = new JLabel("Username");
         passwordLabel = new JLabel("Password");
         backgroundLabel = new JLabel();
@@ -56,6 +57,7 @@ public class CreateUserView extends JLayeredPane
         jtfName = new JTextField(20);
         jtfEmail = new JTextField(20);
         register = new JButton("Register");   
+        back = new JButton("Back");
 
         ImageIcon icon = new ImageIcon("bground5.jpg");
         backgroundLabel.setBounds(0,0,800,600);
@@ -73,7 +75,8 @@ public class CreateUserView extends JLayeredPane
         jpfPassword.setBounds(280, 235, 200, 20);
         jtfName.setBounds(280, 265, 200, 20);
         jtfEmail.setBounds(280, 295, 200, 20);
-        register.setBounds(280, 325, 200, 20);
+        register.setBounds(380, 325, 100, 20);
+        back.setBounds(280, 325, 100, 20);
         title.setBounds(280, 175, 200, 30);
         title.setForeground(Color.WHITE);
         title.setFont(new Font("Courier", Font.PLAIN, 20));
@@ -87,10 +90,12 @@ public class CreateUserView extends JLayeredPane
         add(jtfName, new Integer(1));
         add(jtfEmail, new Integer(1));
         add(register, new Integer(1));
+        add(back, new Integer(1));
         add(title, new Integer(1));
         add(backgroundLabel, new Integer(1));
 
-        register.addActionListener(new ProgressListener());// initialise instance variables
+        register.addActionListener(new ProgressListener());
+        back.addActionListener(new BackListener());
       
     }
     private class ProgressListener implements ActionListener
@@ -103,5 +108,16 @@ public class CreateUserView extends JLayeredPane
 
         }
     }
-
+    private class BackListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {
+            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfUsername);
+            frame.getContentPane().removeAll();           
+            frame.getContentPane().add(new LoginMenuView());
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
+        }
+    }
 }

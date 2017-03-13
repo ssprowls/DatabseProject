@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,12 +16,15 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.ImageIcon;
 
 public class LoginMenuView extends JLayeredPane
 {
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JLabel statusLabel; 
+    private JLabel backgroundLabel;
+    private JLabel title;
     private JTextField jtfUsername;
     private JPasswordField jpfPassword;
     private JButton login;
@@ -28,14 +32,16 @@ public class LoginMenuView extends JLayeredPane
 
     public LoginMenuView()
     {
-        usernameLabel = new JLabel("Username");
-        passwordLabel = new JLabel("Password");
+        usernameLabel = new JLabel("Username: ");
+        passwordLabel = new JLabel("Password: ");
         statusLabel = new JLabel(" ");
+        title = new JLabel("Log-In Screen");
         jtfUsername = new JTextField(20);
         jpfPassword = new JPasswordField();
         login = new JButton("Login");
         createAcct = new JButton("Create Account");
 
+        /*
         JPanel p3 = new JPanel(new GridLayout(2, 1));
         p3.add(usernameLabel);
         p3.add(passwordLabel);
@@ -61,14 +67,43 @@ public class LoginMenuView extends JLayeredPane
 
         p1.setBounds(0,220,800,600);
         p5.setBounds(300,290,200,200);
+        */
+       
+        statusLabel.setForeground(Color.RED);
+        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);  
+        
+        title.setFont(new Font("Courier", Font.PLAIN, 30));
+        title.setForeground(Color.WHITE);
+        title.setBounds(30, 10, 400, 100);
+        usernameLabel.setBounds(200, 245, 80, 30);
+        usernameLabel.setForeground(Color.WHITE);
+        passwordLabel.setBounds(200, 275, 80, 30);
+        passwordLabel.setForeground(Color.WHITE);
+        jtfUsername.setBounds(280, 250, 200, 20);
+        jpfPassword.setBounds(280, 280, 200, 20);
+        //login.setBounds(215, 270, 120, 18);
+        //createAcct.setBounds(340, 270, 120, 18);
+        login.setBounds(305, 340, 120, 18);
+        createAcct.setBounds(305, 365, 120, 18);
 
-        add(p1, new Integer(1));
-        add(p5, new Integer(2));
+        backgroundLabel = new JLabel();
+        ImageIcon icon = new ImageIcon("bground5.jpg");
+        backgroundLabel.setBounds(0,0,800,600);
+        backgroundLabel.setIcon(icon);
+
+        add(backgroundLabel, new Integer(1));
+        add(title, new Integer(2));
+        add(usernameLabel, new Integer(2));
+        add(passwordLabel, new Integer(2));
+        add(statusLabel, new Integer(2));
+        add(login, new Integer(2));
+        add(createAcct, new Integer(2));
+        add(jtfUsername, new Integer(2));
+        add(jpfPassword, new Integer(2));
+        
 
         login.addActionListener(new ProgressListener());
-
     }
-
     private class ProgressListener implements ActionListener
     {
 
@@ -94,9 +129,6 @@ public class LoginMenuView extends JLayeredPane
         }
     }
 }
-
-
-
 
 
 

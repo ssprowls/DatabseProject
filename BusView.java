@@ -52,10 +52,9 @@ public class BusView extends JLayeredPane
         titleLabel = new JLabel(businessName);
         descriptionLabel = new JLabel(businessDescription);
         backgroundLabel = new JLabel();
-        //nameLabel = new JLabel("Name");
+
         busLabel = new JLabel("Business");
         jtfBus = new JTextField(20);
-        //jtfName = new JTextField(20);
         write = new JButton("Write Review");   
         back = new JButton("Back");
         
@@ -119,12 +118,30 @@ public class BusView extends JLayeredPane
         {
             Class.forName("com.mysql.jdbc.Driver");  
             con = DriverManager.getConnection("jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");
-            Statement stmt=con.createStatement();  
-            ResultSet rs=stmt.executeQuery("select * from Businesses where id = " + bus_id);  
-            while(rs.next()) 
+            
+            //Business Information
+            Statement infoStatement = con.createStatement();  
+            ResultSet infoResults = infoStatement.executeQuery("SELECT * FROM Reviews WHERE bus_id = " + bus_id);  
+            while(infoResults.next()) 
             {
-                businessName = rs.getString(2);
-                businessDescription = rs.getString(3);
+                businessName = infoResults.getString(2);
+                businessDescription = infoResults.getString(3);
+            }
+            
+            //Average Rating
+            Statement avgRatStatement = con.createStatement();  
+            ResultSet avgRatResults = avgRatStatement.executeQuery("SELECT AVG(rating) FROM Businesses WHERE id = " + bus_id);  
+            while(avgRatResults.next()) 
+            {
+                ;
+            }
+            
+            //Reviews
+            Statement reviewsStatement = con.createStatement();  
+            ResultSet reviewsResults = avgRatStatement.executeQuery("SELECT name, review, rating, date FROM Reviews JOIN Users ON Users.id = user_id WHERE bus_id = " + bus_id);  
+            while(reviewsResults.next()) 
+            {
+                ;
             }
             con.close();  
         }

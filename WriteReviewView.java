@@ -97,6 +97,7 @@ public class WriteReviewView extends JLayeredPane
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
                 Statement stmt=con.createStatement();  
                 //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
+                // MUST COMMIT TO SEND CHANGES TO DB
                 
                 con.close();
         }

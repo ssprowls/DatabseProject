@@ -1,5 +1,3 @@
- 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -7,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
+import java.sql.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -54,6 +53,7 @@ public class WriteReviewView extends JLayeredPane
         add(submitButton, new Integer(1));
         
         backButton.addActionListener(new backListener());
+        submitButton.addActionListener(new submitListener());
     }
     
     private class backListener implements ActionListener
@@ -69,6 +69,40 @@ public class WriteReviewView extends JLayeredPane
             frame.getContentPane().add(new BusView(bus_id));
             frame.getContentPane().validate();
             frame.getContentPane().repaint();
+        }
+    }
+    private class submitListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) 
+        {     
+            sqlSubmit();
+            
+            Component component = (Component) ae.getSource();
+            JFrame frame = (JFrame) SwingUtilities.getRoot(component);
+
+            frame.getContentPane().removeAll();            
+            frame.getContentPane().add(new MainMenuView());
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
+        }
+    }
+    public void sqlSubmit() 
+    {
+        try
+        {  
+                Class.forName("com.mysql.jdbc.Driver");  
+                Connection con=DriverManager.getConnection(  
+                        "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
+                Statement stmt=con.createStatement();  
+                //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
+                
+                con.close();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
         }
     }
 }

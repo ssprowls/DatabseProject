@@ -21,7 +21,7 @@ import javax.swing.ImageIcon;
 public class MainMenuView extends JLayeredPane
 {
     private JButton logOut;
-    private JButton writeReview;
+    //private JButton writeReview;
     private JButton addBusiness;
     private JButton searchBusiness;
     private JButton searchUser;
@@ -31,7 +31,7 @@ public class MainMenuView extends JLayeredPane
     public MainMenuView()
     {
         logOut = new JButton("Log Out");
-        writeReview = new JButton("Write Review");
+        //writeReview = new JButton("Write Review");
         addBusiness = new JButton("Add Business");
         searchBusiness = new JButton("Search for a Business");
         searchUser = new JButton("Search Users");
@@ -43,20 +43,20 @@ public class MainMenuView extends JLayeredPane
         backgroundLabel.setIcon(icon);
 
         logOut.setBounds(650, 500, 100, 20);
-        writeReview.setBounds(120, 140, 320, 30);
+        //writeReview.setBounds(120, 140, 320, 30);
         addBusiness.setBounds(120, 180, 320, 30);
         searchBusiness.setBounds(120, 220, 320, 30);
         searchUser.setBounds(120, 260, 320, 30);
 
         add(backgroundLabel, new Integer(1));
         add(logOut, new Integer(2));
-        add(writeReview, new Integer(2));
+        //add(writeReview, new Integer(2));
         add(addBusiness, new Integer(2));
         add(searchBusiness, new Integer(2));
         add(searchUser, new Integer(2));
 
         logOut.addActionListener(new LogOutListener());
-        writeReview.addActionListener(new writeReviewListener());
+        //writeReview.addActionListener(new writeReviewListener());
         addBusiness.addActionListener(new addBusinessListener());
         searchBusiness.addActionListener(new searchBusinessListener());
         searchUser.addActionListener(new searchUserListener());

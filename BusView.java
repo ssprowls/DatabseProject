@@ -10,6 +10,7 @@ import java.sql.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -34,12 +35,15 @@ public class BusView extends JLayeredPane
     private JLabel descriptionLabel;
     private JLabel ratingLabel;
     private JButton back;
+    private JTable table;
     private JButton write;
     private int bus_id;
     private String businessName;
     private String businessDescription;
     private float businessAvgRating; 
     private Connection con;
+    private String[] columnNames = {"Name", "Review", "Rating", "Date"};
+    private String[][] tableData = new String[10][];
 
     /**
      * Constructor for objects of class SearchBusView
@@ -52,15 +56,16 @@ public class BusView extends JLayeredPane
         titleLabel = new JLabel(businessName);
         descriptionLabel = new JLabel(businessDescription);
         backgroundLabel = new JLabel();
-        ratingLabel = new JLabel(Float.toString(businessAvgRating));
+        ratingLabel = new JLabel("Average Rating: " + Float.toString(businessAvgRating));
         write = new JButton("Write Review");   
         back = new JButton("Back");
-
+        table = new JTable(tableData, columnNames);
         
         ImageIcon icon = new ImageIcon("bground5.jpg");
         backgroundLabel.setBounds(0,0,800,600);
         backgroundLabel.setIcon(icon);
      
+        //table.setBounds(20, 100, 300, 300);
         write.setBounds(660, 520, 100, 20);
         back.setBounds(20, 520, 100, 20);
         
@@ -70,12 +75,13 @@ public class BusView extends JLayeredPane
         descriptionLabel.setBounds(20, 50, 700, 30);
         descriptionLabel.setForeground(Color.WHITE);
         descriptionLabel.setFont(new Font("Courier", Font.PLAIN, 14));
-        ratingLabel.setBounds(700, 20, 80, 30);        
+        ratingLabel.setBounds(620, 20, 150, 30);        
         ratingLabel.setForeground(Color.WHITE);
         ratingLabel.setFont(new Font("Courier", Font.PLAIN, 14));
         
         add(ratingLabel, new Integer(1));
         add(write, new Integer(1));
+        //add(table, new Integer(1));
         add(back, new Integer(1));
         add(titleLabel, new Integer(1));
         add(descriptionLabel, new Integer(1));
@@ -136,11 +142,14 @@ public class BusView extends JLayeredPane
             }
             
             //Reviews
+            String[] row;
+            int count = 0;
             Statement reviewsStatement = con.createStatement();  
-            ResultSet reviewsResults = avgRatStatement.executeQuery("SELECT name, review, rating, date FROM Reviews JOIN Users ON Users.id = user_id WHERE bus_id = " + bus_id);  
+            ResultSet reviewsResults = avgRatStatement.executeQuery("SELECT name, review, rating, date FROM Reviews JOIN Users ON Users.id = user_id WHERE bus_id = " + bus_id + " ORDER BY date DESC");  
             while(reviewsResults.next()) 
             {
-                ;
+                row = new String[]{reviewsResults.getString(1), reviewsResults.getString(2), reviewsResults.getString(3), reviewsResults.getString(4)};
+                tableData[count++] = row;
             }
             con.close();  
         }

@@ -27,7 +27,7 @@ public class MainMenuView extends JLayeredPane
     private JButton searchUser;
     private JLabel title;
     private JLabel backgroundLabel;
-
+   
     public MainMenuView()
     {
         logOut = new JButton("Log Out");

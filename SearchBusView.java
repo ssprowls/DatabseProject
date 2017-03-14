@@ -93,7 +93,6 @@ public class SearchBusView extends JLayeredPane
         public void actionPerformed(ActionEvent ae) 
         {     
             // Process data
-            System.out.println(jtfBus.getText());
             connect(jtfBus.getText());
 
         }
@@ -110,7 +109,6 @@ public class SearchBusView extends JLayeredPane
                 ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
                 while(rs.next()) 
                 {
-                        System.out.println(rs.getInt(1));//+"  "+rs.getString(2)+"  "+rs.getString(3));
                         busID = rs.getInt(1);
                         hadNone = false;
                 }

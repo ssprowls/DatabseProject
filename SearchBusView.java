@@ -31,6 +31,7 @@ public class SearchBusView extends JLayeredPane
     // instance variables - replace the example below with your own
     private JLabel backgroundLabel;
     private JLabel titleLabel;
+    private JLabel statusLabel;
     //private JLabel nameLabel;
     private JLabel busLabel;
     private JTextField jtfBus;
@@ -46,6 +47,7 @@ public class SearchBusView extends JLayeredPane
         // initialise instance variables
         titleLabel = new JLabel("Search Businesses");
         backgroundLabel = new JLabel();
+        statusLabel = new JLabel();
         //nameLabel = new JLabel("Name");
         busLabel = new JLabel("Business");
         jtfBus = new JTextField(20);
@@ -57,11 +59,13 @@ public class SearchBusView extends JLayeredPane
         backgroundLabel.setBounds(0,0,800,600);
         backgroundLabel.setIcon(icon);
         
-        busLabel.setBounds(200, 200, 80, 30);        
+        busLabel.setBounds(200, 230, 80, 30);        
         busLabel.setForeground(Color.WHITE);
+        statusLabel.setBounds(280, 290, 80, 30);
+        statusLabel.setForeground(Color.WHITE);
         //nameLabel.setBounds(200, 230, 80, 30);
         //nameLabel.setForeground(Color.WHITE);
-        jtfBus.setBounds(280, 205, 200, 20);
+        jtfBus.setBounds(280, 235, 200, 20);
         //jtfName.setBounds(280, 235, 200, 20);
         search.setBounds(380, 265, 100, 20);
         back.setBounds(280, 265, 100, 20);
@@ -70,6 +74,7 @@ public class SearchBusView extends JLayeredPane
         titleLabel.setFont(new Font("Courier", Font.PLAIN, 20));
         
         add(busLabel, new Integer(1));
+        add(statusLabel, new Integer(1));
         //add(nameLabel, new Integer(1));
         add(jtfBus, new Integer(1));
         //add(jtfName, new Integer(1));
@@ -78,7 +83,7 @@ public class SearchBusView extends JLayeredPane
         add(titleLabel, new Integer(1));
         add(backgroundLabel, new Integer(1));
         search.addActionListener(new SearchListener());
-        //back.addActionListener(new BackListener());
+        back.addActionListener(new BackListener());
       
     }
     private class SearchListener implements ActionListener
@@ -94,22 +99,49 @@ public class SearchBusView extends JLayeredPane
         }
     }
     public void connect(String toSearch) {
+        boolean hadNone = true;
+        int busID;
         try
             {  
                 Class.forName("com.mysql.jdbc.Driver");  
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
                 Statement stmt=con.createStatement();  
-                ResultSet rs=stmt.executeQuery("select * from Businesses where name = '" + toSearch + "'");  
+                ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
                 while(rs.next()) 
                 {
-                    System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+                        System.out.println(rs.getInt(1));//+"  "+rs.getString(2)+"  "+rs.getString(3));
+                        busID = rs.getInt(1);
+                        hadNone = false;
                 }
+                if (hadNone)
+                {
+                    statusLabel.setText("No match found.");
+                } else {
+                    JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+                    frame.getContentPane().removeAll();           
+                    frame.getContentPane().add(new BusView(busID));
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
+                }
+                
                 con.close();  
             }
             catch(Exception e)
             { 
                 System.out.println(e);
             }
+    }
+    private class BackListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {
+            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+            frame.getContentPane().removeAll();           
+            frame.getContentPane().add(new MainMenuView());
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
+        }
     }
 }

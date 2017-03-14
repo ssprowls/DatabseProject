@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ImageIcon;
 
+import java.sql.*;
+
 public class LoginMenuView extends JLayeredPane
 {
     private JLabel usernameLabel;
@@ -67,11 +69,11 @@ public class LoginMenuView extends JLayeredPane
 
         p1.setBounds(0,220,800,600);
         p5.setBounds(300,290,200,200);
-        */
-       
+         */
+
         statusLabel.setForeground(Color.RED);
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);  
-        
+
         title.setFont(new Font("Courier", Font.PLAIN, 30));
         title.setForeground(Color.WHITE);
         title.setBounds(30, 10, 400, 100);
@@ -100,37 +102,80 @@ public class LoginMenuView extends JLayeredPane
         add(createAcct, new Integer(2));
         add(jtfUsername, new Integer(2));
         add(jpfPassword, new Integer(2));
-        
 
         login.addActionListener(new ProgressListener());
+        createAcct.addActionListener(new CreateAcctListener());
     }
-    
+
     private class ProgressListener implements ActionListener
     {
 
         @Override
         public void actionPerformed(ActionEvent ae) 
+        {
+            String username = jtfUsername.getText();
+            String password = jpfPassword.getText();
+            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfUsername);
+            
+            try
+            {  
+                Class.forName("com.mysql.jdbc.Driver");  
+
+                Connection con=DriverManager.getConnection(  
+                        "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
+
+                Statement stmt=con.createStatement(); 
+
+                ResultSet rs=stmt.executeQuery("select password from Users where username = '" + username + "';"); 
+
+               
+                while (rs.next())
+                {
+                    if ((rs.getString("password")).equals(password))
+                    {
+                        
+                        frame.getContentPane().removeAll();           
+                        frame.getContentPane().add(new MainMenuView());
+                        frame.getContentPane().validate();
+                        frame.getContentPane().repaint();
+                    }
+                    else
+                    {
+                        statusLabel.setText("Invalid username or password");
+                        statusLabel.setBounds(275,310, 200, 15);
+                        statusLabel.setForeground(Color.RED);
+                        statusLabel.setFont(new Font("Courier", Font.PLAIN, 12));
+                        break;                        
+                    }
+                }
+
+                
+                con.close();  
+            }
+            catch(Exception e)
+            { 
+                System.out.println(e);
+            }           
+
+         
+        }
+    }
+
+    private class CreateAcctListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) 
         {     
-            //String inputName = "";            
+            Component component = (Component) ae.getSource();
+            JFrame frame = (JFrame) SwingUtilities.getRoot(component);
 
-            if (jtfUsername.getText().equals("name") && 
-            jpfPassword.getText().equals("root"))
-            {
-                JFrame frame = (JFrame) SwingUtilities.getRoot(jtfUsername);
-                frame.getContentPane().removeAll();           
-                frame.getContentPane().add(new MainMenuView());
-                frame.getContentPane().validate();
-                frame.getContentPane().repaint();
-            }
-
-            else {
-                statusLabel.setText("Invalid username or password");
-            }
+            frame.getContentPane().removeAll();            
+            frame.getContentPane().add(new CreateUserView());
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
 
         }
     }
 }
-
-
-
 

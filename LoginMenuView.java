@@ -132,24 +132,19 @@ public class LoginMenuView extends JLayeredPane
                 while (rs.next())
                 {
                     if ((rs.getString("password")).equals(password))
-                    {
-                        
+                    {                        
                         frame.getContentPane().removeAll();           
                         frame.getContentPane().add(new MainMenuView());
                         frame.getContentPane().validate();
                         frame.getContentPane().repaint();
                     }
-                    else
-                    {
-                        statusLabel.setText("Invalid username or password");
+                    
+                }
+
+                statusLabel.setText("Invalid username or password");
                         statusLabel.setBounds(275,310, 200, 15);
                         statusLabel.setForeground(Color.RED);
                         statusLabel.setFont(new Font("Courier", Font.PLAIN, 12));
-                        break;                        
-                    }
-                }
-
-                
                 con.close();  
             }
             catch(Exception e)

@@ -105,7 +105,7 @@ public class MainMenuView extends JLayeredPane
             JFrame frame = (JFrame) SwingUtilities.getRoot(component);
 
             frame.getContentPane().removeAll();            
-            //frame.getContentPane().add(new AddBusinessView());
+            frame.getContentPane().add(new AddBusinessView());
             frame.getContentPane().validate();
             frame.getContentPane().repaint();
         }

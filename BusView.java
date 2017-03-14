@@ -36,22 +36,25 @@ public class BusView extends JLayeredPane
     private JTextField jtfBus;
     //private JTextField jtfName;
     private JButton back;
-    private JButton search;
+    private JButton write;
     private int bus_id;
+    private String businessName;
+    private String businessDescription;
 
     /**
      * Constructor for objects of class SearchBusView
      */
     public BusView()
     {
+        sqlBusiness(1);
         // initialise instance variables
-        titleLabel = new JLabel("Search Businesses");
+        titleLabel = new JLabel(businessName);
         backgroundLabel = new JLabel();
         //nameLabel = new JLabel("Name");
         busLabel = new JLabel("Business");
         jtfBus = new JTextField(20);
         //jtfName = new JTextField(20);
-        search = new JButton("Search");   
+        write = new JButton("Write Review");   
         back = new JButton("Back");
         
         ImageIcon icon = new ImageIcon("bground5.jpg");
@@ -64,7 +67,7 @@ public class BusView extends JLayeredPane
         //nameLabel.setForeground(Color.WHITE);
         jtfBus.setBounds(280, 205, 200, 20);
         //jtfName.setBounds(280, 235, 200, 20);
-        search.setBounds(380, 265, 100, 20);
+        write.setBounds(380, 265, 100, 20);
         back.setBounds(280, 265, 100, 20);
         titleLabel.setBounds(280, 175, 200, 30);
         titleLabel.setForeground(Color.WHITE);
@@ -74,26 +77,38 @@ public class BusView extends JLayeredPane
         //add(nameLabel, new Integer(1));
         add(jtfBus, new Integer(1));
         //add(jtfName, new Integer(1));
-        add(search, new Integer(1));
+        add(write, new Integer(1));
         add(back, new Integer(1));
         add(titleLabel, new Integer(1));
         add(backgroundLabel, new Integer(1));
-        search.addActionListener(new SearchListener());
-        //back.addActionListener(new BackListener());
+        back.addActionListener(new BackListener());
+        write.addActionListener(new WriteListener());
       
     }
-    private class SearchListener implements ActionListener
+    private class BackListener implements ActionListener
     {
 
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
             // Process data
-            connect(1);
+            System.out.println("HI");
+                    
+        }
+    }
+    private class WriteListener implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) 
+        {     
+            // Process data
+            System.out.println("HI");
 
         }
     }
-    public void connect(int bus_id) {
+    public void sqlBusiness(int bus_id)
+    {
         try
             {  
                 Class.forName("com.mysql.jdbc.Driver");  
@@ -103,7 +118,8 @@ public class BusView extends JLayeredPane
                 ResultSet rs=stmt.executeQuery("select * from Businesses where id = " + bus_id);  
                 while(rs.next()) 
                 {
-                    System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+                    businessName = rs.getString(2);
+                    businessDescription = rs.getString(3);
                 }
                 con.close();  
             }

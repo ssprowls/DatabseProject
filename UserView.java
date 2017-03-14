@@ -78,18 +78,17 @@ public class UserView extends JLayeredPane
         add(back, new Integer(1));
         add(titleLabel, new Integer(1));
         add(backgroundLabel, new Integer(1));
-        search.addActionListener(new SearchListener());
-        //back.addActionListener(new BackListener());
+        back.addActionListener(new BackListener());
       
     }
-    private class SearchListener implements ActionListener
+    private class BackListener implements ActionListener
     {
 
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
             // Process data
-            connect(1);
+            ;
 
         }
     }

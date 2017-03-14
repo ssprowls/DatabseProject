@@ -32,13 +32,13 @@ public class BusView extends JLayeredPane
     private JLabel backgroundLabel;
     private JLabel titleLabel;
     private JLabel descriptionLabel;
-    private JLabel busLabel;
-    private JTextField jtfBus;
+    private JLabel ratingLabel;
     private JButton back;
     private JButton write;
     private int bus_id;
     private String businessName;
     private String businessDescription;
+    private float businessAvgRating; 
     private Connection con;
 
     /**
@@ -52,30 +52,29 @@ public class BusView extends JLayeredPane
         titleLabel = new JLabel(businessName);
         descriptionLabel = new JLabel(businessDescription);
         backgroundLabel = new JLabel();
-
-        busLabel = new JLabel("Business");
-        jtfBus = new JTextField(20);
+        ratingLabel = new JLabel(Float.toString(businessAvgRating));
         write = new JButton("Write Review");   
         back = new JButton("Back");
+
         
         ImageIcon icon = new ImageIcon("bground5.jpg");
         backgroundLabel.setBounds(0,0,800,600);
         backgroundLabel.setIcon(icon);
-        
-        busLabel.setBounds(200, 200, 80, 30);        
-        busLabel.setForeground(Color.WHITE);
-        jtfBus.setBounds(280, 205, 200, 20);
+     
         write.setBounds(660, 520, 100, 20);
         back.setBounds(20, 520, 100, 20);
+        
         titleLabel.setBounds(20, 20, 200, 30);
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setFont(new Font("Courier", Font.PLAIN, 20));
         descriptionLabel.setBounds(20, 50, 700, 30);
         descriptionLabel.setForeground(Color.WHITE);
         descriptionLabel.setFont(new Font("Courier", Font.PLAIN, 14));
+        ratingLabel.setBounds(700, 20, 80, 30);        
+        ratingLabel.setForeground(Color.WHITE);
+        ratingLabel.setFont(new Font("Courier", Font.PLAIN, 14));
         
-        add(busLabel, new Integer(1));
-        add(jtfBus, new Integer(1));
+        add(ratingLabel, new Integer(1));
         add(write, new Integer(1));
         add(back, new Integer(1));
         add(titleLabel, new Integer(1));
@@ -90,7 +89,7 @@ public class BusView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+            JFrame frame = (JFrame) SwingUtilities.getRoot(titleLabel);
             frame.getContentPane().removeAll();           
             frame.getContentPane().add(new SearchBusView());
             frame.getContentPane().validate();
@@ -104,7 +103,7 @@ public class BusView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+            JFrame frame = (JFrame) SwingUtilities.getRoot(titleLabel);
             frame.getContentPane().removeAll();           
             frame.getContentPane().add(new WriteReviewView(bus_id));
             frame.getContentPane().validate();
@@ -121,7 +120,7 @@ public class BusView extends JLayeredPane
             
             //Business Information
             Statement infoStatement = con.createStatement();  
-            ResultSet infoResults = infoStatement.executeQuery("SELECT * FROM Reviews WHERE bus_id = " + bus_id);  
+            ResultSet infoResults = infoStatement.executeQuery("SELECT * FROM Businesses WHERE id = " + bus_id);  
             while(infoResults.next()) 
             {
                 businessName = infoResults.getString(2);
@@ -130,10 +129,10 @@ public class BusView extends JLayeredPane
             
             //Average Rating
             Statement avgRatStatement = con.createStatement();  
-            ResultSet avgRatResults = avgRatStatement.executeQuery("SELECT AVG(rating) FROM Businesses WHERE id = " + bus_id);  
+            ResultSet avgRatResults = avgRatStatement.executeQuery("SELECT AVG(rating) FROM Reviews WHERE bus_id = " + bus_id + " GROUP BY bus_id");  
             while(avgRatResults.next()) 
             {
-                ;
+                businessAvgRating = avgRatResults.getFloat(1);
             }
             
             //Reviews

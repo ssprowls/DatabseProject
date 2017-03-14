@@ -83,7 +83,7 @@ public class SearchBusView extends JLayeredPane
         add(titleLabel, new Integer(1));
         add(backgroundLabel, new Integer(1));
         search.addActionListener(new SearchListener());
-        //back.addActionListener(new BackListener());
+        back.addActionListener(new BackListener());
       
     }
     private class SearchListener implements ActionListener
@@ -124,5 +124,17 @@ public class SearchBusView extends JLayeredPane
             { 
                 System.out.println(e);
             }
+    }
+    private class BackListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {
+            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+            frame.getContentPane().removeAll();           
+            frame.getContentPane().add(new MainMenuView());
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
+        }
     }
 }

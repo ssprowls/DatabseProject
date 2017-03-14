@@ -121,7 +121,7 @@ public class MainMenuView extends JLayeredPane
             JFrame frame = (JFrame) SwingUtilities.getRoot(component);
 
             frame.getContentPane().removeAll();            
-            //frame.getContentPane().add(new SearchBusinessView());
+            frame.getContentPane().add(new SearchBusView());
             frame.getContentPane().validate();
             frame.getContentPane().repaint();
         }
@@ -137,7 +137,7 @@ public class MainMenuView extends JLayeredPane
             JFrame frame = (JFrame) SwingUtilities.getRoot(component);
 
             frame.getContentPane().removeAll();            
-            //frame.getContentPane().add(new SearchUserView());
+            frame.getContentPane().add(new SearchUserView());
             frame.getContentPane().validate();
             frame.getContentPane().repaint();
         }

@@ -117,7 +117,14 @@ public class SearchBusView extends JLayeredPane
                 if (hadNone)
                 {
                     statusLabel.setText("No match found.");
+                } else {
+                    JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+                    frame.getContentPane().removeAll();           
+                    frame.getContentPane().add(new BusView(busID));
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
                 }
+                
                 con.close();  
             }
             catch(Exception e)

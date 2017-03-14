@@ -100,7 +100,7 @@ public class SearchBusView extends JLayeredPane
     }
     public void connect(String toSearch) {
         boolean hadNone = true;
-        int busID;
+        int busID = 0;
         try
             {  
                 Class.forName("com.mysql.jdbc.Driver");  

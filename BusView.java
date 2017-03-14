@@ -31,24 +31,26 @@ public class BusView extends JLayeredPane
     // instance variables - replace the example below with your own
     private JLabel backgroundLabel;
     private JLabel titleLabel;
-    //private JLabel nameLabel;
+    private JLabel descriptionLabel;
     private JLabel busLabel;
     private JTextField jtfBus;
-    //private JTextField jtfName;
     private JButton back;
     private JButton write;
     private int bus_id;
     private String businessName;
     private String businessDescription;
+    private Connection con;
 
     /**
      * Constructor for objects of class SearchBusView
      */
-    public BusView()
+    public BusView(int id)
     {
-        sqlBusiness(1);
+        this.bus_id = id;
+        getBusinessData(bus_id);
         // initialise instance variables
         titleLabel = new JLabel(businessName);
+        descriptionLabel = new JLabel(businessDescription);
         backgroundLabel = new JLabel();
         //nameLabel = new JLabel("Name");
         busLabel = new JLabel("Business");
@@ -63,27 +65,25 @@ public class BusView extends JLayeredPane
         
         busLabel.setBounds(200, 200, 80, 30);        
         busLabel.setForeground(Color.WHITE);
-        //nameLabel.setBounds(200, 230, 80, 30);
-        //nameLabel.setForeground(Color.WHITE);
         jtfBus.setBounds(280, 205, 200, 20);
-        //jtfName.setBounds(280, 235, 200, 20);
-        write.setBounds(380, 265, 100, 20);
-        back.setBounds(280, 265, 100, 20);
-        titleLabel.setBounds(280, 175, 200, 30);
+        write.setBounds(660, 520, 100, 20);
+        back.setBounds(20, 520, 100, 20);
+        titleLabel.setBounds(20, 20, 200, 30);
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setFont(new Font("Courier", Font.PLAIN, 20));
+        descriptionLabel.setBounds(20, 50, 700, 30);
+        descriptionLabel.setForeground(Color.WHITE);
+        descriptionLabel.setFont(new Font("Courier", Font.PLAIN, 14));
         
         add(busLabel, new Integer(1));
-        //add(nameLabel, new Integer(1));
         add(jtfBus, new Integer(1));
-        //add(jtfName, new Integer(1));
         add(write, new Integer(1));
         add(back, new Integer(1));
         add(titleLabel, new Integer(1));
+        add(descriptionLabel, new Integer(1));
         add(backgroundLabel, new Integer(1));
         back.addActionListener(new BackListener());
         write.addActionListener(new WriteListener());
-      
     }
     private class BackListener implements ActionListener
     {
@@ -91,7 +91,6 @@ public class BusView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            // Process data
             System.out.println("HI");
                     
         }
@@ -102,30 +101,29 @@ public class BusView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            // Process data
             System.out.println("HI");
 
         }
     }
-    public void sqlBusiness(int bus_id)
+    public void getBusinessData(int bus_id)
     {
         try
-            {  
-                Class.forName("com.mysql.jdbc.Driver");  
-                Connection con=DriverManager.getConnection(  
-                        "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
-                Statement stmt=con.createStatement();  
-                ResultSet rs=stmt.executeQuery("select * from Businesses where id = " + bus_id);  
-                while(rs.next()) 
-                {
-                    businessName = rs.getString(2);
-                    businessDescription = rs.getString(3);
-                }
-                con.close();  
+        {
+            Class.forName("com.mysql.jdbc.Driver");  
+            con = DriverManager.getConnection("jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");
+            Statement stmt=con.createStatement();  
+            ResultSet rs=stmt.executeQuery("select * from Businesses where id = " + bus_id);  
+            while(rs.next()) 
+            {
+                businessName = rs.getString(2);
+                businessDescription = rs.getString(3);
             }
-            catch(Exception e)
-            { 
-                System.out.println(e);
-            }
+            con.close();  
+        }
+       
+        catch(Exception e)
+        { 
+            System.out.println(e);
+        }
     }
 }

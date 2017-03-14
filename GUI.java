@@ -9,8 +9,7 @@ public class GUI {
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
 
-        //frame.add(new LoginMenuView());
-        frame.add(new BusView());
+        frame.add(new LoginMenuView());
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);      
 

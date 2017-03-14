@@ -91,7 +91,11 @@ public class BusView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            System.out.println("HI");
+            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+            frame.getContentPane().removeAll();           
+            frame.getContentPane().add(new SearchBusView());
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
                     
         }
     }
@@ -101,7 +105,11 @@ public class BusView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            System.out.println("HI");
+            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfBus);
+            frame.getContentPane().removeAll();           
+            frame.getContentPane().add(new WriteReviewView(bus_id));
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
 
         }
     }

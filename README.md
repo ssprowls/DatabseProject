@@ -3,8 +3,11 @@
 
 ### Project Roles: 
 Aaron Atamian: Chief Engineer
+
 Austin Terris: Chief Database Manager
+
 Chauncey Neyman: Project Manager
+
 Spencer Sprowls: Chief Designer
 
 ### Project Instructions: 

@@ -128,15 +128,18 @@ public class LoginMenuView extends JLayeredPane
                 Statement stmt=con.createStatement(); 
 
                 ResultSet rs=stmt.executeQuery("select password from Users where username = '" + username + "';");
-                
-                //ResultSet rs1=stmt.executeQuery("select id from Users where username = '" + username + "';");
-
                
                 while (rs.next())
                 {
                     if ((rs.getString("password")).equals(password))
                     {   
-                        //int user_id = rs1.getInt("id");
+                        int user_id = -1;
+                        Statement stmt1 = con.createStatement();
+                        ResultSet user = stmt1.executeQuery("select id from Users where username = '" + username + "';");
+                        while (user.next()) {
+                            user_id = user.getInt("id");
+                        }
+                        User_ID id = new User_ID(user_id);
                         frame.getContentPane().removeAll();           
                         frame.getContentPane().add(new MainMenuView());
                         frame.getContentPane().validate();

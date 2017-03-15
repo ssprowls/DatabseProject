@@ -109,7 +109,7 @@ public class WriteReviewView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            sqlSubmit(1, reviewField.getText(), ratingBox.getSelectedIndex());
+            sqlSubmit(User_ID.id, reviewField.getText(), ratingBox.getSelectedIndex());
             
             Component component = (Component) ae.getSource();
             JFrame frame = (JFrame) SwingUtilities.getRoot(component);

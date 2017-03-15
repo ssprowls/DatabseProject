@@ -34,6 +34,11 @@ public class AddBusinessView extends JLayeredPane
     private JLabel categoryLabel;
     private String[] categories;
     private JComboBox<String> categoryBox;
+    private JLabel priceLabel;
+    private String[] prices;
+    private JComboBox<String> priceBox;
+    private JLabel zipLabel;
+    private JTextField zipField;
 
     
     public AddBusinessView()
@@ -48,6 +53,11 @@ public class AddBusinessView extends JLayeredPane
         categoryLabel = new JLabel("Category");
         categories = new String[] {"Food","Service","Retail"};
         categoryBox = new JComboBox<String>(categories);
+        priceLabel = new JLabel("Prices");
+        prices = new String[] {"$", "$$", "$$$"};
+        priceBox = new JComboBox<String>(prices);
+        zipLabel = new JLabel("Zip code");
+        zipField = new JTextField(10);
 
         backgroundLabel = new JLabel();
         ImageIcon icon = new ImageIcon("bground5.jpg");
@@ -63,6 +73,12 @@ public class AddBusinessView extends JLayeredPane
         categoryLabel.setBounds(200, 260, 80, 30);
         categoryLabel.setForeground(Color.WHITE);
         categoryBox.setBounds(280, 270, 200, 20);
+        priceLabel.setBounds(200, 290, 80, 30);
+        priceLabel.setForeground(Color.WHITE);
+        priceBox.setBounds(280, 295, 80, 30);
+        zipLabel.setBounds(200, 320, 80, 30);
+        zipLabel.setForeground(Color.WHITE);
+        zipField.setBounds(280, 325, 80, 30);
         submitButton.setBounds(660, 520, 100, 20);
         backButton.setBounds(20, 520, 100, 20);
         
@@ -72,11 +88,14 @@ public class AddBusinessView extends JLayeredPane
         add(descriptionField, new Integer(1));
         add(categoryLabel, new Integer(1));
         add(categoryBox, new Integer(1));
+        add(priceLabel, new Integer(1));
+        add(priceBox, new Integer(1));
+        add(zipLabel, new Integer(1));
+        add(zipField, new Integer(1));
         add(backButton, new Integer(1));
         add(submitButton, new Integer(1));
         add(backgroundLabel, new Integer(1));
         
-        // 
         backButton.addActionListener(new backListener());
         submitButton.addActionListener(new submitListener());
     }
@@ -102,7 +121,7 @@ public class AddBusinessView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            sqlSubmit(nameField.getText(), descriptionField.getText(), categoryBox.getSelectedIndex());
+            sqlSubmit(nameField.getText(), descriptionField.getText(), categoryBox.getSelectedIndex(), priceBox.getSelectedIndex(), zipField.getText());
             
             Component component = (Component) ae.getSource();
             JFrame frame = (JFrame) SwingUtilities.getRoot(component);
@@ -113,19 +132,33 @@ public class AddBusinessView extends JLayeredPane
             frame.getContentPane().repaint();
         }
     }
-    public void sqlSubmit(String name, String description, int category) 
+    public void sqlSubmit(String name, String description, int category, int price, String zip) 
     {
         try
         {  
-                System.out.println("Name: " + name);
-                System.out.println("Description: " + description);
-                System.out.println("Category: " + category);
-                // 0 = food, 1 = service, 2 = retail
+                String cat;
+                String pri;
+                
+                switch (category) {
+                    case 0: cat = "Food";
+                    case 1: cat = "Service";
+                    case 2: cat = "Retail";
+                    default: cat = "Food";
+                }
+                
+                switch (price) {
+                    case 0: pri = "$";
+                    case 1: pri = "$$";
+                    case 2: pri = "$$$";
+                    default: pri = "$";
+                }
                 
                 Class.forName("com.mysql.jdbc.Driver");  
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
                 Statement stmt=con.createStatement();  
+                stmt.executeUpdate("INSERT INTO `Businesses` (`name`,`description`,`category`,`price`, `zip`) VALUES ('" + name + 
+                                 "', '" + description + "', '" + cat + "', '" + pri + "', '" + zip + "')");
                 //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
                 // MUST COMMIT TO SEND CHANGES TO DB
                 

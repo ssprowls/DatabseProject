@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
 import java.sql.*;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -125,14 +126,21 @@ public class WriteReviewView extends JLayeredPane
         try
         {
                 rating += 1;
-                // REVIEW:
-                // user_id, bus_id, review, rating, date
                 Class.forName("com.mysql.jdbc.Driver");  
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
-                Statement stmt=con.createStatement();  
-                stmt.executeUpdate("INSERT INTO `Reviews` (`user_id`,`bus_id`,`review`,`rating`, `date`) VALUES ('" + user + 
-                                 "', '" + bus_id + "', '" + review + "', '" + rating + "', CURDATE())");
+                
+                PreparedStatement stmt = con.prepareStatement("INSERT INTO Reviews (user_id, bus_id, review, rating, date) VALUES (?, ?, ?, ?, ?)");
+                stmt.setInt(1, user);
+                stmt.setInt(2, bus_id);
+                stmt.setString(3, review);
+                stmt.setInt(4, rating);
+                java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                stmt.setDate(5, date);
+                stmt.executeUpdate();
+                //Statement stmt=con.createStatement();  
+                //stmt.executeUpdate("INSERT INTO `Reviews` (`user_id`,`bus_id`,`review`,`rating`, `date`) VALUES ('" + user + 
+                //                 "', '" + bus_id + "', '" + review + "', '" + rating + "', CURDATE())");
                 //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
                 // MUST COMMIT TO SEND CHANGES TO DB
                 

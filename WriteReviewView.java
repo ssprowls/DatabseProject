@@ -127,16 +127,12 @@ public class WriteReviewView extends JLayeredPane
                 rating += 1;
                 // REVIEW:
                 // user_id, bus_id, review, rating, date
-                System.out.println("User id: " + user);
-                System.out.println("Business id: " + bus_id);
-                System.out.println("Review: " + review);
-                System.out.println("Rating: " + rating);
                 Class.forName("com.mysql.jdbc.Driver");  
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
                 Statement stmt=con.createStatement();  
                 stmt.executeUpdate("INSERT INTO `Reviews` (`user_id`,`bus_id`,`review`,`rating`, `date`) VALUES ('" + user + 
-                                 "', '" + bus_id + "', '" + review + "', '" + rating + "', GETDATE()')");
+                                 "', '" + bus_id + "', '" + review + "', '" + rating + "', CURDATE())");
                 //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
                 // MUST COMMIT TO SEND CHANGES TO DB
                 

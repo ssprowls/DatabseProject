@@ -81,6 +81,7 @@ public class SearchUserView extends JLayeredPane
         add(statusLabel, new Integer(1));
         add(backgroundLabel, new Integer(1));
         search.addActionListener(new SearchListener());
+        back.addActionListener(new BackListener());
 
     }
     private class SearchListener implements ActionListener
@@ -89,14 +90,32 @@ public class SearchUserView extends JLayeredPane
     @Override
         public void actionPerformed(ActionEvent ae) 
         {     
+            String query;
             // Process data
             //System.out.println(jtfUser.getText());
-            if (jtfName.getText().length() == 0) {
-                connect(jtfUser.getText());
-            } else {
-                conName(jtfName.getText());
-
+            if (jtfName.getText().length() > 0 && jtfName.getText().length() > 0) {
+                query = "SELECT id FROM Users WHERE username LIKE '%" + jtfUser.getText() + "%' and name LIKE '%" + jtfName.getText() + "%'";
             }
+            else if (jtfName.getText().length() == 0) {
+                query = "SELECT id FROM Users WHERE username LIKE '%" + jtfUser.getText() + "%'";
+            } 
+            else {
+                query = "SELECT id FROM Users WHERE name LIKE '%" + jtfName.getText() + "%'";
+            }
+            connect(query);
+        }
+    }
+    
+    private class BackListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {
+            JFrame frame = (JFrame) SwingUtilities.getRoot(jtfName);
+            frame.getContentPane().removeAll();           
+            frame.getContentPane().add(new MainMenuView());
+            frame.getContentPane().validate();
+            frame.getContentPane().repaint();
         }
     }
     public void connect(String toSearch) {
@@ -108,7 +127,7 @@ public class SearchUserView extends JLayeredPane
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
                 Statement stmt=con.createStatement();  
-                ResultSet rs=stmt.executeQuery("SELECT id FROM Users WHERE username LIKE '%" + toSearch + "%'");  
+                ResultSet rs=stmt.executeQuery(toSearch);  
                 while(rs.next()) 
                 {
                         System.out.println(rs.getInt(1));//+"  "+rs.getString(2)+"  "+rs.getString(3));
@@ -132,39 +151,5 @@ public class SearchUserView extends JLayeredPane
             { 
                 System.out.println(e);
             }
-    }
-    public void conName(String toSearch) {
-        boolean hadNone = true;
-        int userID = 0;
-        try
-            {  
-                Class.forName("com.mysql.jdbc.Driver");  
-                Connection con=DriverManager.getConnection(  
-                        "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
-                Statement stmt=con.createStatement();  
-                ResultSet rs=stmt.executeQuery("SELECT id FROM Users WHERE name LIKE '%" + toSearch + "%'");  
-                while(rs.next()) 
-                {
-                        System.out.println(rs.getInt(1));//+"  "+rs.getString(2)+"  "+rs.getString(3));
-                        userID = rs.getInt(1);
-                        hadNone = false;
-                }
-                if (hadNone)
-                {
-                    statusLabel.setText("No match found.");
-                } else {
-                    JFrame frame = (JFrame) SwingUtilities.getRoot(jtfName);
-                    frame.getContentPane().removeAll();           
-                    frame.getContentPane().add(new UserView());//busID));
-                    frame.getContentPane().validate();
-                    frame.getContentPane().repaint();
-                }
-                
-                con.close();  
-            }
-            catch(Exception e)
-            { 
-                System.out.println(e);
-            }
-    }
+        }
 }

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
+import java.sql.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -104,9 +105,34 @@ public class CreateUserView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            // Process data
+            sqlSubmit(jtfUsername.getText(), jpfPassword.getText(), jtfName.getText(), jtfEmail.getText());
 
         }
+    }
+     public void sqlSubmit(String user, String pass, String name, String email) 
+    {
+        try
+        {  
+                Class.forName("com.mysql.jdbc.Driver");  
+                Connection con=DriverManager.getConnection(  
+                        "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
+                Statement stmt=con.createStatement();  
+                //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
+                stmt.executeUpdate("INSERT INTO `Users` (`name`,`username`,`password`,`email`) VALUES ('" + name + 
+                                 "', '" + user + "', '" + pass + "', '" + email + "')");
+                // MUST COMMIT TO SEND CHANGES TO DB
+                
+                con.close();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        JFrame frame = (JFrame) SwingUtilities.getRoot(jtfUsername);
+        frame.getContentPane().removeAll();           
+        frame.getContentPane().add(new LoginMenuView());
+        frame.getContentPane().validate();
+        frame.getContentPane().repaint();
     }
     private class BackListener implements ActionListener
     {

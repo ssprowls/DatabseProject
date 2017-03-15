@@ -80,10 +80,14 @@ public class BusView extends JLayeredPane
         reviewText2 = new JLabel(reviews[1]);
         reviewText3 = new JLabel(reviews[2]);
         reviewText4 = new JLabel(reviews[3]);
-        reviewRating1 = new JLabel("Rating: " + ratings[0] + " / 5");
-        reviewRating2 = new JLabel("Rating: " + ratings[1] + " / 5");
-        reviewRating3 = new JLabel("Rating: " + ratings[2] + " / 5");
-        reviewRating4 = new JLabel("Rating: " + ratings[3] + " / 5");
+
+            reviewRating1 = new JLabel("Rating: " + ratings[0] + " / 5");
+
+            reviewRating2 = new JLabel("Rating: " + ratings[1] + " / 5");
+
+            reviewRating3 = new JLabel("Rating: " + ratings[2] + " / 5");
+
+            reviewRating4 = new JLabel("Rating: " + ratings[3] + " / 5");
         
         ImageIcon icon = new ImageIcon("bground5.jpg");
         backgroundLabel.setBounds(0,0,800,600);

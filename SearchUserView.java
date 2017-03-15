@@ -130,7 +130,6 @@ public class SearchUserView extends JLayeredPane
                 ResultSet rs=stmt.executeQuery(toSearch);  
                 while(rs.next()) 
                 {
-                        System.out.println(rs.getInt(1));//+"  "+rs.getString(2)+"  "+rs.getString(3));
                         userID = rs.getInt(1);
                         hadNone = false;
                 }

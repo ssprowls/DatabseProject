@@ -45,7 +45,7 @@ public class AddBusinessView extends JLayeredPane
     {
         backButton = new JButton("Back");
         submitButton = new JButton("Submit");
-        title = new JLabel("Write Review");
+        title = new JLabel("Add Business");
         nameLabel = new JLabel("Name");
         descriptionLabel = new JLabel("Description");
         nameField = new JTextField(20);
@@ -64,6 +64,9 @@ public class AddBusinessView extends JLayeredPane
         backgroundLabel.setBounds(0,0,800,600);
         backgroundLabel.setIcon(icon);
         
+        title.setBounds(280, 175, 300, 30);
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Courier", Font.PLAIN, 20));
         nameLabel.setBounds(200, 200, 80, 30);
         nameLabel.setForeground(Color.WHITE);
         descriptionLabel.setBounds(200, 230, 80, 30);
@@ -94,6 +97,7 @@ public class AddBusinessView extends JLayeredPane
         add(zipField, new Integer(1));
         add(backButton, new Integer(1));
         add(submitButton, new Integer(1));
+        add(title, new Integer(1));
         add(backgroundLabel, new Integer(1));
         
         backButton.addActionListener(new backListener());

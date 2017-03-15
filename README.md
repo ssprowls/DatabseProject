@@ -11,6 +11,7 @@ Chauncey Neyman: Project Manager
 Spencer Sprowls: Chief Designer
 
 ### Project Instructions: 
-Download all source files. From the directory containing all of our source files,
-compile with "javac \*.java" and run with "java GUI". This should launch a Java
-window running our project.
+Download all source files. 
+
+On OS X/Linux: From the directory containing all of our source files,
+compile and run our program with the command "./run"

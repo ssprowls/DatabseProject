@@ -45,7 +45,6 @@ public class UserView extends JLayeredPane
     private JLabel reviewRating3;
     private JLabel reviewRating4;
     private JButton back;
-    private JButton write;
     private int user_id;
     private String userName;
     private String userEmail;
@@ -63,9 +62,8 @@ public class UserView extends JLayeredPane
         getUserData(user_id);
         // initialise instance variables
         titleLabel = new JLabel(userName);
-        descriptionLabel = new JLabel(businessDescription);
+        descriptionLabel = new JLabel(userEmail);
         backgroundLabel = new JLabel();
-        write = new JButton("Write Review");   
         back = new JButton("Back");
         
         //Review List
@@ -126,7 +124,6 @@ public class UserView extends JLayeredPane
         reviewRating4.setFont(new Font("Courier", Font.PLAIN, 16));
         
         //Navigation Buttons
-        write.setBounds(660, 520, 100, 20);
         back.setBounds(20, 520, 100, 20);
         
         titleLabel.setBounds(20, 20, 200, 30);
@@ -148,13 +145,11 @@ public class UserView extends JLayeredPane
         add(reviewRating2, new Integer(1));
         add(reviewRating3, new Integer(1));
         add(reviewRating4, new Integer(1));
-        add(write, new Integer(1));
         add(back, new Integer(1));
         add(titleLabel, new Integer(1));
         add(descriptionLabel, new Integer(1));
         add(backgroundLabel, new Integer(1));
         back.addActionListener(new BackListener());
-        write.addActionListener(new WriteListener());
     }
     private class BackListener implements ActionListener
     {
@@ -170,21 +165,7 @@ public class UserView extends JLayeredPane
                     
         }
     }
-    private class WriteListener implements ActionListener
-    {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) 
-        {     
-            JFrame frame = (JFrame) SwingUtilities.getRoot(titleLabel);
-            frame.getContentPane().removeAll();           
-            frame.getContentPane().add(new WriteReviewView(bus_id));
-            frame.getContentPane().validate();
-            frame.getContentPane().repaint();
-
-        }
-    }
-    public void getBusinessData(int user_id)
+    public void getUserData(int user_id)
     {
         try
         {
@@ -203,7 +184,7 @@ public class UserView extends JLayeredPane
             //Reviews
             int count = 0;
             Statement reviewsStatement = con.createStatement();  
-            ResultSet reviewsResults = avgRatStatement.executeQuery("SELECT name, review, rating FROM Reviews JOIN Businesses ON Businesses.id = bus_id WHERE user_id = " + user_id + " ORDER BY date DESC LIMIT 4");  
+            ResultSet reviewsResults = reviewsStatement.executeQuery("SELECT name, review, rating FROM Reviews JOIN Businesses ON Businesses.id = bus_id WHERE user_id = " + user_id + " ORDER BY date DESC LIMIT 4");  
             while(reviewsResults.next()) 
             {
                 names[count] = reviewsResults.getString(1);

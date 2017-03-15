@@ -140,7 +140,7 @@ public class SearchUserView extends JLayeredPane
                 } else {
                     JFrame frame = (JFrame) SwingUtilities.getRoot(jtfName);
                     frame.getContentPane().removeAll();           
-                    frame.getContentPane().add(new UserView());//busID));
+                    frame.getContentPane().add(new UserView(userID));//busID));
                     frame.getContentPane().validate();
                     frame.getContentPane().repaint();
                 }

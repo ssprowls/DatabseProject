@@ -219,7 +219,7 @@ public class BusView extends JLayeredPane
             //Reviews
             int count = 0;
             Statement reviewsStatement = con.createStatement();  
-            ResultSet reviewsResults = avgRatStatement.executeQuery("SELECT name, review, rating FROM Reviews JOIN Users ON Users.id = user_id WHERE bus_id = " + bus_id + " ORDER BY date DESC LIMIT 4");  
+            ResultSet reviewsResults = reviewsStatement.executeQuery("SELECT name, review, rating FROM Reviews JOIN Users ON Users.id = user_id WHERE bus_id = " + bus_id + " ORDER BY date DESC LIMIT 4");  
             while(reviewsResults.next()) 
             {
                 names[count] = reviewsResults.getString(1);

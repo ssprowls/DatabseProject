@@ -22,6 +22,7 @@ import java.sql.*;
 
 public class LoginMenuView extends JLayeredPane
 {
+    private int user_id;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JLabel statusLabel; 
@@ -126,13 +127,16 @@ public class LoginMenuView extends JLayeredPane
 
                 Statement stmt=con.createStatement(); 
 
-                ResultSet rs=stmt.executeQuery("select password from Users where username = '" + username + "';"); 
+                ResultSet rs=stmt.executeQuery("select password from Users where username = '" + username + "';");
+                
+                //ResultSet rs1=stmt.executeQuery("select id from Users where username = '" + username + "';");
 
                
                 while (rs.next())
                 {
                     if ((rs.getString("password")).equals(password))
-                    {                        
+                    {   
+                        //int user_id = rs1.getInt("id");
                         frame.getContentPane().removeAll();           
                         frame.getContentPane().add(new MainMenuView());
                         frame.getContentPane().validate();
@@ -141,7 +145,7 @@ public class LoginMenuView extends JLayeredPane
                     
                 }
 
-                statusLabel.setText("Invalid username or password");
+               statusLabel.setText("Invalid username or password");
                         statusLabel.setBounds(275,310, 200, 15);
                         statusLabel.setForeground(Color.RED);
                         statusLabel.setFont(new Font("Courier", Font.PLAIN, 12));

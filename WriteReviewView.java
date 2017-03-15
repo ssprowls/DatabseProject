@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ImageIcon;
@@ -33,13 +34,28 @@ public class WriteReviewView extends JLayeredPane
     private JLabel title;
     private JLabel backgroundLabel;
     private int bus_id = 0;
+    
+    private JLabel reviewLabel;
+    private JTextField reviewField;
+    private JLabel ratingLabel;
+    private String[] stars;
+    private JComboBox<String> ratingBox;
 
     public WriteReviewView(int id)
     {
+        stars = new String[] {"*", "**", "***", "****", "*****"};
+        // Will need businesses to correspond to bus_id's
+        // REQUIRES A SELECT ALL STATEMENT IN SQL
+        // REVIEW:
+        // user_id, bus_id, review, rating, date
         bus_id = id;
         backButton = new JButton("Back");
         submitButton = new JButton("Submit");
         title = new JLabel("Write Review");
+        reviewLabel = new JLabel("Review");
+        reviewField = new JTextField(1000);
+        ratingLabel = new JLabel("Rating");
+        ratingBox = new JComboBox<String>(stars);
 
         backgroundLabel = new JLabel();
         ImageIcon icon = new ImageIcon("bground5.jpg");
@@ -48,9 +64,25 @@ public class WriteReviewView extends JLayeredPane
         
         submitButton.setBounds(660, 520, 100, 20);
         backButton.setBounds(20, 520, 100, 20);
+        title.setBounds(280, 175, 300, 30);
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Courier", Font.PLAIN, 20));
+        ratingLabel.setBounds(200, 200, 80, 30);
+        ratingLabel.setForeground(Color.WHITE);
+        ratingBox.setBounds(280, 205, 80, 30);
+        reviewLabel.setBounds(200, 230, 80, 30);
+        reviewLabel.setForeground(Color.WHITE);
+        reviewField.setBounds(280, 235, 400, 200);
+        reviewField.setHorizontalAlignment(SwingConstants.LEFT);
         
         add(backButton, new Integer(1));
         add(submitButton, new Integer(1));
+        add(title, new Integer(1));
+        add(reviewLabel, new Integer(1));
+        add(reviewField, new Integer(1));
+        add(ratingLabel, new Integer(1));
+        add(ratingBox, new Integer(1));
+        add(backgroundLabel, new Integer(1));
         
         backButton.addActionListener(new backListener());
         submitButton.addActionListener(new submitListener());
@@ -77,7 +109,7 @@ public class WriteReviewView extends JLayeredPane
         @Override
         public void actionPerformed(ActionEvent ae) 
         {     
-            sqlSubmit();
+            sqlSubmit(1, reviewField.getText(), ratingBox.getSelectedIndex());
             
             Component component = (Component) ae.getSource();
             JFrame frame = (JFrame) SwingUtilities.getRoot(component);
@@ -88,14 +120,23 @@ public class WriteReviewView extends JLayeredPane
             frame.getContentPane().repaint();
         }
     }
-    public void sqlSubmit() 
+    public void sqlSubmit(int user, String review, int rating) 
     {
         try
-        {  
+        {
+                rating += 1;
+                // REVIEW:
+                // user_id, bus_id, review, rating, date
+                System.out.println("User id: " + user);
+                System.out.println("Business id: " + bus_id);
+                System.out.println("Review: " + review);
+                System.out.println("Rating: " + rating);
                 Class.forName("com.mysql.jdbc.Driver");  
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
                 Statement stmt=con.createStatement();  
+                stmt.executeUpdate("INSERT INTO `Reviews` (`user_id`,`bus_id`,`review`,`rating`, `date`) VALUES ('" + user + 
+                                 "', '" + bus_id + "', '" + review + "', '" + rating + "', GETDATE()')");
                 //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
                 // MUST COMMIT TO SEND CHANGES TO DB
                 

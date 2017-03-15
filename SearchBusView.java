@@ -66,6 +66,7 @@ public class SearchBusView extends JLayeredPane
         //nameLabel.setBounds(200, 230, 80, 30);
         //nameLabel.setForeground(Color.WHITE);
         jtfBus.setBounds(280, 235, 200, 20);
+
         //jtfName.setBounds(280, 235, 200, 20);
         search.setBounds(380, 265, 100, 20);
         back.setBounds(280, 265, 100, 20);

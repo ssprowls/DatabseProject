@@ -5,7 +5,7 @@ public class GUI {
     private JFrame frame;
    
     public void run() {        
-        frame = new JFrame("Databases - 365");
+        frame = new JFrame("Business Reviews");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
 

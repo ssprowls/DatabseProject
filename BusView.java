@@ -81,13 +81,10 @@ public class BusView extends JLayeredPane
         reviewText3 = new JLabel(reviews[2]);
         reviewText4 = new JLabel(reviews[3]);
 
-            reviewRating1 = new JLabel("Rating: " + ratings[0] + " / 5");
-
-            reviewRating2 = new JLabel("Rating: " + ratings[1] + " / 5");
-
-            reviewRating3 = new JLabel("Rating: " + ratings[2] + " / 5");
-
-            reviewRating4 = new JLabel("Rating: " + ratings[3] + " / 5");
+        reviewRating1 = new JLabel(ratings[0]);
+        reviewRating2 = new JLabel(ratings[1]);
+        reviewRating3 = new JLabel(ratings[2]);
+        reviewRating4 = new JLabel(ratings[3]);
         
         ImageIcon icon = new ImageIcon("bground5.jpg");
         backgroundLabel.setBounds(0,0,800,600);
@@ -228,7 +225,7 @@ public class BusView extends JLayeredPane
             {
                 names[count] = reviewsResults.getString(1);
                 reviews[count] = reviewsResults.getString(2);
-                ratings[count] = reviewsResults.getString(3);
+                ratings[count] = "Rating: " + reviewsResults.getString(3) + " / 5";
                 count++;
             }
             con.close();  

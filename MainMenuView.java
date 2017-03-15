@@ -42,7 +42,7 @@ public class MainMenuView extends JLayeredPane
         backgroundLabel.setBounds(0,0,800,600);
         backgroundLabel.setIcon(icon);
 
-        logOut.setBounds(650, 500, 100, 20);
+        logOut.setBounds(660, 520, 100, 20);
         //writeReview.setBounds(120, 140, 320, 30);
         addBusiness.setBounds(120, 180, 320, 30);
         searchBusiness.setBounds(120, 220, 320, 30);

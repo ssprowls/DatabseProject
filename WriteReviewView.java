@@ -45,10 +45,6 @@ public class WriteReviewView extends JLayeredPane
     public WriteReviewView(int id)
     {
         stars = new String[] {"*", "**", "***", "****", "*****"};
-        // Will need businesses to correspond to bus_id's
-        // REQUIRES A SELECT ALL STATEMENT IN SQL
-        // REVIEW:
-        // user_id, bus_id, review, rating, date
         bus_id = id;
         backButton = new JButton("Back");
         submitButton = new JButton("Submit");

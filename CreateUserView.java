@@ -116,10 +116,17 @@ public class CreateUserView extends JLayeredPane
                 Class.forName("com.mysql.jdbc.Driver");  
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
-                Statement stmt=con.createStatement();  
+                
+                PreparedStatement stmt = con.prepareStatement("INSERT INTO Users (name, username, password, email) VALUES (?, ?, ?, ?)");
+                stmt.setString(1, name);
+                stmt.setString(2, user);
+                stmt.setString(3, pass);
+                stmt.setString(4, email);
+                stmt.executeUpdate();
+                //Statement stmt=con.createStatement();  
                 //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
-                stmt.executeUpdate("INSERT INTO `Users` (`name`,`username`,`password`,`email`) VALUES ('" + name + 
-                                 "', '" + user + "', '" + pass + "', '" + email + "')");
+                //stmt.executeUpdate("INSERT INTO `Users` (`name`,`username`,`password`,`email`) VALUES ('" + name + 
+                //                 "', '" + user + "', '" + pass + "', '" + email + "')");
                 // MUST COMMIT TO SEND CHANGES TO DB
                 
                 con.close();

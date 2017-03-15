@@ -160,9 +160,17 @@ public class AddBusinessView extends JLayeredPane
                 Class.forName("com.mysql.jdbc.Driver");  
                 Connection con=DriverManager.getConnection(  
                         "jdbc:mysql://calteccomputers.com/caltec5_365", "caltec5_team", "cheddar");  
-                Statement stmt=con.createStatement();  
-                stmt.executeUpdate("INSERT INTO `Businesses` (`name`,`description`,`category`,`price`, `zip`) VALUES ('" + name + 
-                                 "', '" + description + "', '" + cat + "', '" + pri + "', '" + zip + "')");
+                
+                PreparedStatement stmt = con.prepareStatement("INSERT INTO Businesses (name, description, category, price, zip) VALUES (?, ?, ?, ?, ?)");        
+                stmt.setString(1, name);
+                stmt.setString(2, description);
+                stmt.setString(3, cat);
+                stmt.setString(4, pri);
+                stmt.setString(5, zip);
+                stmt.executeUpdate();
+                //Statement stmt=con.createStatement();  
+                //stmt.executeUpdate("INSERT INTO `Businesses` (`name`,`description`,`category`,`price`, `zip`) VALUES ('" + name + 
+                //                 "', '" + description + "', '" + cat + "', '" + pri + "', '" + zip + "')");
                 //ResultSet rs=stmt.executeQuery("SELECT id FROM Businesses WHERE name LIKE '%" + toSearch + "%'");  
                 // MUST COMMIT TO SEND CHANGES TO DB
                 

@@ -26,6 +26,7 @@ public class MainMenuView extends JLayeredPane
     private JButton searchBusiness;
     private JButton searchUser;
     private JLabel title;
+    private JLabel titleMenu;
     private JLabel backgroundLabel;
    
     public MainMenuView()
@@ -43,14 +44,16 @@ public class MainMenuView extends JLayeredPane
         backgroundLabel.setIcon(icon);
 
         logOut.setBounds(660, 520, 100, 20);
-        //writeReview.setBounds(120, 140, 320, 30);
+        title.setBounds(120, 120, 320, 30);
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Courier", Font.PLAIN, 20));
         addBusiness.setBounds(120, 180, 320, 30);
         searchBusiness.setBounds(120, 220, 320, 30);
         searchUser.setBounds(120, 260, 320, 30);
 
         add(backgroundLabel, new Integer(1));
         add(logOut, new Integer(2));
-        //add(writeReview, new Integer(2));
+        add(title, new Integer(2));
         add(addBusiness, new Integer(2));
         add(searchBusiness, new Integer(2));
         add(searchUser, new Integer(2));
